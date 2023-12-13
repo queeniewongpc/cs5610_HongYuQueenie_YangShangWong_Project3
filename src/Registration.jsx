@@ -8,15 +8,15 @@ function UserAccount()
 {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleRegistration() 
   {
     try {
-      const response = await axios.post('/api/registration', { username, password });
+      const response = await axios.post('/api/post/registration', { username, password });
       if (response.data.success) 
       {
-        // navigate(`/home/${username}`);
+         navigate(`/home/${username}`);
       }
     } catch (error) {
       console.error('Error registering user:', error);
