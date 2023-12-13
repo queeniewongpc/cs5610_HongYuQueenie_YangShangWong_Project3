@@ -36,7 +36,7 @@ export default function Login() {
         try {
             const response = await axios.post('/api/user/login', loginFormState)
 
-            navigate('/')    
+            navigate('/api/home/${username}')    
         } catch (err) {
             setErrorDetailsState("Issue logging in, please try again :)")
         }
