@@ -1,0 +1,33 @@
+.blog-form {
+  max-width: 600px;
+}
+
+.form-field {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.input-name {
+  margin-bottom: 10px;
+}
+
+.textarea-content {
+  height: 150px;
+}
+
+.submit-btn {
+  padding: 10px 15px;
+  border: none;
+  background-color: #b13a46;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.submit-btn:hover {
+  background-color: #D41B2C;
+}

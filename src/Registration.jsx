@@ -8,19 +8,19 @@ function UserAccount()
 {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleRegistration() 
   {
     try {
-      const response = await axios.post('/api/registration', { username, password });
+      const response = await axios.post('/api/user/registration', { username, password });
       if (response.data.success) 
       {
-        // navigate(`/home/${username}`);
+         navigate('/home/${username}');
       }
     } catch (error) {
       console.error('Error registering user:', error);
-      // Handle errors or display error messages to the user
+      // Display error messages to the user
     }
   }
 
@@ -43,7 +43,6 @@ function UserAccount()
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleRegistration}>Register</button>
-        {/* Add components or routes for login/register forms here */}
       </div>
     </div>
   </div>
