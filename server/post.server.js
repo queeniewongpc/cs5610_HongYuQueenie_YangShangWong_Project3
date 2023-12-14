@@ -18,7 +18,6 @@ const postDB = [
         id: 3,
         owner: 'Queenie',
         text: 'THREE!',
-        image: 'https://archives.bulbagarden.net/media/upload/archive/3/38/20130810070957%210006Charizard.png',
         timestamp: generateTimestamp(),
     },
 ]
@@ -57,7 +56,7 @@ router.get('/all', async function(req, res) {
 
         for(let i = 0; i < postResponse.length; i++) {
             const postValue = postResponse[i];
-            if(postValue.owner.toLocaleLowerCase() === ownerQuery.toLocaleLowerCase()) {
+            if(postValue.owner === ownerQuery) {
                 response.push(postValue)
             }
         }
@@ -99,13 +98,13 @@ router.post('/', async function(req, res) {
 
     const body = req.body;
     const postText = body.text;
-    const owner = body.name;
+    const owner = body.owner;
     const image = body.image
     const postId = postDB.length + 1;
 
     if(!postText || !owner) {
-        response.status(400);
-        return response.send("Missing post text or owner!")
+        res.status(400);
+        return res.send("Missing post text or owner!")
     }
 
     const newPost = ({

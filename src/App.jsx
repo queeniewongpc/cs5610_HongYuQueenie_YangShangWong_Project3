@@ -1,41 +1,38 @@
-import { useState, useEffect} from 'react'
-import axios from 'axios'
-import './App.css'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
-
   //show the post
-  const [postListState, setPostListState] = useState([])
+  const [postListState, setPostListState] = useState([]);
 
-  useEffect( function() {
-    async function getAllPost() {
-      const response = await axios.get('http://localhost:3500/api/post/all')
-      setPostListState(response.data);
-    }
+  const getAllPost = async () => {
+    const response = await axios.get('http://localhost:3500/api/post/all');
+    setPostListState(response.data);
+  };
 
-     getAllPost();
-  }, []); 
+  useEffect(() => {
+    getAllPost();
+  }, []);
 
   const postComponent = [];
 
-  for(let i = 0; i < postListState.length; i++) {
+  for (let i = 0; i < postListState.length; i++) {
     const currentPostValue = postListState[i];
-    console.log(currentPostValue.image)
-    postComponent.push(<div>
-      {currentPostValue.owner} - Post: {currentPostValue.text}
-      <div></div>
-      {currentPostValue.image && (
-
-        <img src={currentPostValue.image} alt="Post Image" />
-      )}
-    </div>)
-  }  
+    postComponent.push(
+      <div key={i}>
+        {currentPostValue.owner} - Post: {currentPostValue.text} - {currentPostValue.timestamp}
+        <div></div>
+        {currentPostValue.image && <img src={currentPostValue.image} alt="Post Image" />}
+      </div>
+    );
+  }
   //show the post
-  
 
   return (
-    <div>{postComponent}</div>
-  )
+      <div>{postComponent}</div>
+
+  );
 }
 
-export default App
+export default App;

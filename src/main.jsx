@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import UserPage from './UserPage.jsx'
 
 import {
   createBrowserRouter,
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
   {
     path: '/registration',
     element: <Registration />
+  },
+
+  {
+    path: '/:owner',
+    element: <UserPage />
   }
 ]);
 
