@@ -64,7 +64,7 @@ function UserPage() {
   // make a new post
 
   if(postListState.length === 0) {
-    return (<dev>No such User! Go Create One</dev>)
+    (<dev>What's on your mind?</dev>)
   }
 
   return (

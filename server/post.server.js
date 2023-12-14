@@ -56,7 +56,7 @@ router.get('/all', async function(req, res) {
 
         for(let i = 0; i < postResponse.length; i++) {
             const postValue = postResponse[i];
-            if(postValue.owner === ownerQuery) {
+            if(postValue.owner.toLocaleLowerCase() === ownerQuery.toLocaleLowerCase()) {
                 response.push(postValue)
             }
         }

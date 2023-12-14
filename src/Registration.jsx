@@ -1,27 +1,34 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Navbar from './Navbar'; 
 import './Registration.css';
+import { useNavigate } from "react-router";
+
 
 function UserAccount() 
 {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorDetailsState, setErrorDetailsState] = useState('');
   const navigate = useNavigate();
 
   async function handleRegistration() 
   {
     try {
-      const response = await axios.post('/api/user/registration', { username, password });
+      const response = await axios.post('http://localhost:3500/api/user/registration', { username, password });
       if (response.data.success) 
       {
-         navigate('/home/${username}');
+        console.log("Register success")
+        navigate('/login');
       }
     } catch (error) {
-      console.error('Error registering user:', error);
-      // Display error messages to the user
+      setErrorDetailsState('Error registering user:', error);
     }
+  }
+
+  let errorMessage = null;
+  if(errorDetailsState) {
+      errorMessage = <div>{errorDetailsState}</div>
   }
 
   return (

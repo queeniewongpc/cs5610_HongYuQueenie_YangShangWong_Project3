@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Navbar from './Navbar'; 
 
 
+
 export default function Login() {
 
     const [loginFormState, setLoginFormState] = useState({});
@@ -34,9 +35,9 @@ export default function Login() {
 
     async function submitLogin() {
         try {
-            const response = await axios.post('/api/user/login', loginFormState)
+            const response = await axios.post('http://localhost:3500/api/user/login', loginFormState)
 
-            navigate('/api/home/${username}')    
+            navigate(`/${loginFormState.username}`)  
         } catch (err) {
             setErrorDetailsState("Issue logging in, please try again :)")
         }
