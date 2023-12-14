@@ -1,43 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './Homepage.css';
 import Navbar from './Navbar';
+import BlogPost from './BlogPost';
+import BlogForm from './BlogForm';
 
 const Home = () => {
-  const [postListState, setPostListState] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
 
+  // Load posts from local storage when the component mounts
   useEffect(() => {
-    async function getAllPost() {
-      const response = await axios.get('http://localhost:3500/api/post/all');
-      setPostListState(response.data);
+    try {
+      const savedPosts = localStorage.getItem('blogPosts');
+      if (savedPosts) {
+        setBlogPosts(JSON.parse(savedPosts));
+      }
+    } catch (error) {
+      console.error('Failed to load posts from localStorage:', error);
     }
-    getAllPost();
   }, []);
 
-  const postComponent = postListState.map((currentPostValue, index) => (
-    <div key={index}>
-      {currentPostValue.owner} - Post: {currentPostValue.text}
-      <div></div>
-      {currentPostValue.image && (
-        <img src={currentPostValue.image} alt="Post Image" />
-      )}
-    </div>
-  ));
+  // Save posts to local storage when blogPosts changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+    } catch (error) {
+      console.error('Failed to save posts to localStorage:', error);
+    }
+  }, [blogPosts]);
+
+  const addBlogPost = (newPost) => {
+    setBlogPosts([newPost, ...blogPosts]);
+  };
 
   return (
     <div className="home-container">
       <Navbar />
-      <header className="header">
-        <div className="header-content">
-          <h1 className="title">Welcome to your home page</h1>
-          <p className="subtitle">Connect and share with friends</p>
-        </div>
-      </header>
-      <div className="post-container">
-        {/* Display posts */}
-        {postComponent}
+      <BlogForm addBlogPost={addBlogPost} />
+      <div className="blog-posts">
+        {blogPosts.map((post, index) => (
+          <BlogPost key={index} post={post} />
+        ))}
       </div>
-      {/* Rest of your content goes here */}
     </div>
   );
 };
