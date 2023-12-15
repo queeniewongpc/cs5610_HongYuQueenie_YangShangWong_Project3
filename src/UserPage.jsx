@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+import './UserPage.css';
 
 function UserPage() {
   //show the post
   const [postListState, setPostListState] = useState([]);
+  //const [userInfo, setUserInfo] = useState({});
 
   const params = useParams();
   const owner = params.owner;
@@ -68,18 +69,17 @@ function UserPage() {
   }
 
   return (
-    <div>
-      <div>
+    <div className="userPageContainer">
+      <div className="postContainer">{postComponent}</div>
+      <div className="container">
         <h3>Make a new post</h3>
-        <div>Content: </div>
-        <input onInput={updatePostContent} value={newPostContent} />
-        <div>Image: </div>
-        <input onInput={updatePostImage} value={newPostImage} />
-        <div></div>
-        <button onClick={makeNewPost}>Post!</button>
+          <div>Content: </div>
+          <input className="inputField" onChange={updatePostContent} value={newPostContent} />
+          <div>Image: </div>
+          <input className="inputField" onChange={updatePostImage} value={newPostImage} />
+          <button className="submitButton" onClick={makeNewPost}>Post!</button>
       </div>
-      <div>{postComponent}</div>
-    </div>
+  </div>
   );
 }
 
