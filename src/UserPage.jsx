@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './UserPage.css';
+import Navbar from './Navbar'; 
 
 function UserPage() {
   //show the post
   const [postListState, setPostListState] = useState([]);
   //const [userInfo, setUserInfo] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const params = useParams();
   const owner = params.owner;
@@ -63,22 +65,24 @@ function UserPage() {
   }
 
   // make a new post
-
   if(postListState.length === 0) {
     (<dev>What's on your mind?</dev>)
   }
 
   return (
-    <div className="userPageContainer">
-      <div className="postContainer">{postComponent}</div>
-      <div className="container">
-        <h3>Make a new post</h3>
-          <div>Content: </div>
-          <input className="inputField" onChange={updatePostContent} value={newPostContent} />
-          <div>Image: </div>
-          <input className="inputField" onChange={updatePostImage} value={newPostImage} />
-          <button className="submitButton" onClick={makeNewPost}>Post!</button>
-      </div>
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} />
+      <div className="userPageContainer">
+        <div className="postContainer">{postComponent}</div>
+        <div className="container">
+          <h3>Make a new post</h3>
+            <div>Content: </div>
+            <input className="inputField" onChange={updatePostContent} value={newPostContent} />
+            <div>Image: </div>
+            <input className="inputField" onChange={updatePostImage} value={newPostImage} />
+            <button className="submitButton" onClick={makeNewPost}>Post!</button>
+        </div>
+    </div>
   </div>
   );
 }

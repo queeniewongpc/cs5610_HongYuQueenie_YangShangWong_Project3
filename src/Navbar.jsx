@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css'
 import NUlogo from './images/NUlogo.png';
 
-const Navbar = () => 
+const Navbar = ({ isLoggedIn }) => 
 {
   return (
     <nav className="navbar">
@@ -17,16 +17,28 @@ const Navbar = () =>
               Home
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/login" className="nav-links">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/registration" className="nav-links">
-              Register
-            </Link>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li className="nav-item">
+                <Link to="/login" className="nav-links">
+                  Logout
+                </Link>
+              </li>
+            </>
+          ) : (
+          <>
+            <li className="nav-item">
+              <Link to="/login" className="nav-links">
+                Login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/registration" className="nav-links">
+                Register
+              </Link>
+            </li>
+          </>
+          )}
         </ul>
       </div>
     </nav>
