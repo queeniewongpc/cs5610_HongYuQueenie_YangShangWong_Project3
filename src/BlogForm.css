@@ -1,9 +1,9 @@
 .blog-form {
-  max-width: 600px;
+  max-width: 300px;
 }
 
 .form-field {
-  width: 100%;
+  width: 300px;
   box-sizing: border-box;
   margin-bottom: 10px;
   padding: 8px;
@@ -16,7 +16,9 @@
 }
 
 .textarea-content {
-  height: 150px;
+  height: 100px;
+  width: 100%;
+  resize: none;
 }
 
 .submit-btn {

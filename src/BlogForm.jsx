@@ -6,7 +6,7 @@ const BlogForm = ({ addBlogPost }) => {
   const [content, setContent] = useState('');
   const [username, setUsername] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmission = (event) => {
     event.preventDefault();
     const newPost = {
       title,
@@ -21,7 +21,7 @@ const BlogForm = ({ addBlogPost }) => {
 
   return (
     <div className="blog-form-container">
-      <form onSubmit={handleSubmit} className="blog-form">
+      <form onSubmit={handleSubmission} className="blog-form">
         <input
           type="text"
           className="form-field input-name"
@@ -35,6 +35,7 @@ const BlogForm = ({ addBlogPost }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="What's on your mind?"
+          maxLength="100"
           required
         />
         <button type="submit" className="submit-btn">Post</button>
