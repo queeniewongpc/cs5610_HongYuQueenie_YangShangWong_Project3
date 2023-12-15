@@ -14,10 +14,12 @@ import Registration from './Registration.jsx'
 import Homepage from './Homepage.jsx'
 
 const router = createBrowserRouter([
+  /*
   {
     path: "/",
     element: <App />,
   },
+  */
   {
     path: '/home',
     element: <Homepage />

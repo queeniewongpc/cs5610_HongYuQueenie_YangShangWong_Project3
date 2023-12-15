@@ -1,26 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
-const postDB = [
-    {
-        id: 1,
-        owner: 'Boris',
-        text: 'ONE!',
-        timestamp: generateTimestamp(),
-    },
-    {
-        id: 2,
-        owner: 'Hong',
-        text: 'TWO!',
-        timestamp: generateTimestamp(),
-    },
-    {
-        id: 3,
-        owner: 'Queenie',
-        text: 'THREE!',
-        timestamp: generateTimestamp(),
-    },
-]
+const blogPostAccessor = require('./database/blogpost.model');
+
+// const postDB = [
+//     {
+//         id: 1,
+//         owner: 'Boris',
+//         text: 'ONE!',
+//         timestamp: generateTimestamp(),
+//     },
+//     {
+//         id: 2,
+//         owner: 'Hong',
+//         text: 'TWO!',
+//         timestamp: generateTimestamp(),
+//     },
+//     {
+//         id: 3,
+//         owner: 'Queenie',
+//         text: 'THREE!',
+//         timestamp: generateTimestamp(),
+//     },
+// ]
 
 //generate time stamp
 function generateTimestamp() {
@@ -35,39 +37,35 @@ function generateTimestamp() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+/*
 // return all post
 router.get('/', function(req, res) {
 
     res.json(postDB);
 });
+*/
 
 //api/post/all?owner=Boris
 //api/post/all
 router.get('/all', async function(req, res) {
 
-    const ownerQuery = req.query.owner;
-    let postResponse = postDB;
+    const ownerQuery = res.cookies.username;
+    let postResponse = [];
 
-//     const allPokemon = await PokemonAccessor.getAllPokemon();
+//    const allPokemon = await PokemonAccessor.getAllPokemon();
 //    return  response.json(allPokemon);
  
     if(ownerQuery) {
-        const response = [];
-
-        for(let i = 0; i < postResponse.length; i++) {
-            const postValue = postResponse[i];
-            if(postValue.owner.toLocaleLowerCase() === ownerQuery.toLocaleLowerCase()) {
-                response.push(postValue)
-            }
-        }
-        postResponse = response;
+        const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(ownerQuery);
+        return response.json(foundBlogPosts);
+    } else
+    {
+        res.status(400);
+        return response.send("Cannot get blog posts when logged out");
     }
-    if(postResponse.length == 0) {
-        return res.status(404).json({ error: "No such User!"});
-    }
-    res.json(postResponse);
 })
 
+/*
 ////api/post/1
 router.get('/:postId', function (req, res) {
     // return pokemon if one is found matching the pokemonId
@@ -82,6 +80,7 @@ router.get('/:postId', function (req, res) {
     }
     res.status(404).json({ error: "No post matches that post id!"});
 });
+*/
 
 //http://localhost:3500/api/post/
 //Headers:Content-Type application/json
@@ -89,41 +88,37 @@ router.get('/:postId', function (req, res) {
 //name , ... (use cookie username later....)
 //image , ....
 router.post('/', async function(req, res) {
-    // const username = req.cookies.username
+    const username = res.cookies.username;
     
-    // if(!username) {
-    //     response.status(400)
-    //     return response.send("Users need to be logged in to create a new post!")
-    // }
+    if(!username) {
+         response.status(400)
+         return response.send("Users need to be logged in to create a new post!")
+    }
 
     const body = req.body;
-    const postText = body.text;
-    const owner = body.owner;
-    const image = body.image
-    const postId = postDB.length + 1;
+    const text = body.text;
+    const owner = username;
 
-    if(!postText || !owner) {
+    if(!text) {
         res.status(400);
         return res.send("Missing post text or owner!")
     }
 
     const newPost = ({
-        id: postId,
         owner: owner,
-        text: postText,
+        text: text,
         timestamp: generateTimestamp()
     });
 
-    if(image) {
-        newPost.image = image;
-    }
+    const createBlogPost = await blogPostAccessor.insertBlogPost(newPost);
 
-    postDB.push(newPost)
+    res.json(createBlogPost);
+    //response.cookie('postId', createBlogPost.id)
 
-    return res.status(200).json({message: "Post added successfully!", post: newPost, });
+    //return res.status(200).json({message: "Post added successfully!", post: newPost, });
 });
 
-
+/*
 //http://localhost:3500/api/1
 //Headers:Content-Type application/json
 //text , ...
@@ -178,6 +173,7 @@ router.delete('/:postId', function(req, res) {
 
     return res.status(200).json({ error: "No post matches that post id!" });
 })
+*/
 
 module.exports = router;
 

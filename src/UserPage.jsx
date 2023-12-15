@@ -3,10 +3,14 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './UserPage.css';
 import Navbar from './Navbar'; 
+import { useNavigate } from 'react-router';
 
 function UserPage() {
+  const navigate = useNavigate();
+
   //show the post
   const [postListState, setPostListState] = useState([]);
+  const [newPostContent, setNewPostContent] = useState('');
   //const [userInfo, setUserInfo] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
@@ -15,7 +19,8 @@ function UserPage() {
 
 
   const getAllUserPost = async () => {
-    const response = await axios.get('http://localhost:3500/api/post/all?owner=' + owner);
+    //const response = await axios.get('/api/blogpost/all');
+    const response = await axios.get('http://localhost:3500/api/blogpost/all');
     setPostListState(response.data);
   };
 
@@ -27,40 +32,28 @@ function UserPage() {
 
   for (let i = 0; i < postListState.length; i++) {
     const currentPostValue = postListState[i];
+
     postComponent.push(
-      <div key={i}>
+      <div>
         {currentPostValue.owner} - Post: {currentPostValue.text} - {currentPostValue.timestamp}
-        <div></div>
-        {currentPostValue.image && <img src={currentPostValue.image} alt="Post Image" />}
       </div>
     );
   }
-  //show the post
-  // make a new post
-  const [newPostImage, setNewPostImage] = useState('');
-  const [newPostContent, setNewPostContent] = useState('');
 
   function updatePostContent(event) {
     setNewPostContent(event.target.value);
   }
 
-  function updatePostImage(event) {
-    setNewPostImage(event.target.value);
-  }
-
-
   async function makeNewPost() {
     const newPost = {
       owner: owner,
       text: newPostContent,
-      image: newPostImage ? newPostImage : null,
     };
 
-    await axios.post('http://localhost:3500/api/post', newPost);
+    await axios.post('http://localhost:3500/api/blogpost', newPost);
 
     await getAllUserPost();
 
-    setNewPostImage('');
     setNewPostContent('');
   }
 
@@ -77,10 +70,8 @@ function UserPage() {
         <div className="container">
           <h3>Make a new post</h3>
             <div>Content: </div>
-            <input className="inputField" onChange={updatePostContent} value={newPostContent} />
-            <div>Image: </div>
-            <input className="inputField" onChange={updatePostImage} value={newPostImage} />
-            <button className="submitButton" onClick={makeNewPost}>Post!</button>
+            <input className="inputField" onInput={updatePostContent} value={newPostContent} />
+            <button className="submitButton" onClick={makeNewPost}>Submit</button>
         </div>
     </div>
   </div>

@@ -14,6 +14,10 @@ function getAllBlogPosts()
     return BlogPostModel.find().exec();
 }
 
+function findBlogPostsByOwner(owner) {
+    return BlogPostModel.find({owner: owner}).exec();
+}
+
 module.exports = 
 {
     insertBlogPost,
