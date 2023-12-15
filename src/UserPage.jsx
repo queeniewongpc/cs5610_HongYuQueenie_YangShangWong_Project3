@@ -3,11 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './UserPage.css';
 import Navbar from './Navbar'; 
-import { useNavigate } from 'react-router';
 
 function UserPage() {
-  const navigate = useNavigate();
-
   //show the post
   const [postListState, setPostListState] = useState([]);
   const [newPostContent, setNewPostContent] = useState('');
