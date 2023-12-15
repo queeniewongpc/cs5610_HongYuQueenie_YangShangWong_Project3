@@ -1,26 +1,53 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import axios from 'axios';
 import Navbar from './Navbar'; 
 import './Registration.css';
-import { useNavigate } from "react-router";
+
 
 
 function UserAccount() 
 {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginFormState, setLoginFormState] = useState({});
   const [errorDetailsState, setErrorDetailsState] = useState('');
   const navigate = useNavigate();
+
+  function updateUserNameInState(event) {
+      const username = event.target.value;
+
+      const newLoginFormState = {
+          password: loginFormState.password,
+          username: username,
+      }
+
+      setLoginFormState(newLoginFormState)
+  }
+  
+  function updatePasswordInState(event) {
+      const password = event.target.value;
+
+      const newLoginFormState = {
+          username: loginFormState.username,
+          password: password,
+      }
+
+      setLoginFormState(newLoginFormState)
+  }
+
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [errorDetailsState, setErrorDetailsState] = useState('');
+  // const navigate = useNavigate();
 
   async function handleRegistration() 
   {
     try {
-      const response = await axios.post('http://localhost:3500/api/user/registration', { username, password });
-      if (response.data.success) 
-      {
-        console.log("Register success")
+      const response = await axios.post('http://localhost:3500/api/user/registration', loginFormState);
+      //if (response.data.success) 
+      //{
+        //console.log("Register success")
         navigate('/login');
-      }
+      //}
     } catch (error) {
       setErrorDetailsState('Error registering user:', error);
     }
@@ -37,18 +64,8 @@ function UserAccount()
     <div className="container">
       <h2>Create an account</h2>
       <div className="formContainer">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input type="text" placeholder="Username" onInput={updateUserNameInState}/>
+        <input type="password" placeholder="Password" onInput={updatePasswordInState}/>
         <button onClick={handleRegistration}>Register</button>
       </div>
     </div>
