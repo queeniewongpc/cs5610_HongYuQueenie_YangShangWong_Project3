@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
 
-const BlogpostSchema = require('./blogpost.schema').BlogpostSchema
+const BlogPostSchema = require('./blogpost.schema').BlogPostSchema
 
-const BlogpostModel = mongoose.model("BlogpostSchema", BlogpostSchema);
+const BlogPostModel = mongoose.model("BlogPostSchema", BlogPostSchema);
 
 function insertBlogPost(post) 
 {

@@ -1,6 +1,6 @@
 const Schema = require('mongoose').Schema;
 
-exports.BlogpostSchema = new Schema({
+exports.BlogPostSchema = new Schema({
     username: {
         type: String,
         unique: true
@@ -10,4 +10,4 @@ exports.BlogpostSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-}, { collection : 'userTable' });
+}, { collection : 'postTable' });
