@@ -10,10 +10,18 @@ function UserPage() {
   const [newPostContent, setNewPostContent] = useState('');
   //const [userInfo, setUserInfo] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [userName, setUsername] = useState('')
 
   const params = useParams();
   const owner = params.owner;
 
+  async function getUsername() {
+    const response = await axios.get('/api/user/isLoggedIn')
+
+    if(response.data.username) {
+      setUsername(response.data.username)
+    }
+  }
 
   const getAllUserPost = async () => {
     //const response = await axios.get('/api/blogpost/all');
@@ -23,6 +31,7 @@ function UserPage() {
 
   useEffect(() => {
     getAllUserPost();
+    getUsername();
   }, []);
 
   const postComponent = [];
@@ -41,6 +50,7 @@ function UserPage() {
     setNewPostContent(event.target.value);
   }
 
+  
   async function makeNewPost() {
     const newPost = {
       owner: owner,
@@ -54,6 +64,11 @@ function UserPage() {
     setNewPostContent('');
   }
 
+  let usernameMessage = <div>Loading...</div>
+  if(userName) {
+    usernameMessage = <div>Logged in as {userName}</div>
+  }
+
   // make a new post
   if(postListState.length === 0) {
     (<dev>What's on your mind?</dev>)
@@ -63,6 +78,7 @@ function UserPage() {
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="userPageContainer">
+        <h1> {usernameMessage} </h1>
         <div className="postContainer">{postComponent}</div>
         <div className="container">
           <h3>Make a new post</h3>
