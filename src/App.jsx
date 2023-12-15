@@ -7,7 +7,7 @@ function App() {
   const [postListState, setPostListState] = useState([]);
 
   const getAllPost = async () => {
-    const response = await axios.get('http://localhost:3500/api/blogpost/all');
+    const response = await axios.get('/api/blogpost/all');
     setPostListState(response.data);
   };
 

@@ -20,7 +20,7 @@ function UserPage() {
 
   const getAllUserPost = async () => {
     //const response = await axios.get('/api/blogpost/all');
-    const response = await axios.get('http://localhost:3500/api/blogpost/all');
+    const response = await axios.get('/api/blogpost/all');
     setPostListState(response.data);
   };
 
@@ -50,7 +50,7 @@ function UserPage() {
       text: newPostContent,
     };
 
-    await axios.post('http://localhost:3500/api/blogpost', newPost);
+    await axios.post('/api/blogpost', newPost);
 
     await getAllUserPost();
 

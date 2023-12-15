@@ -44,7 +44,7 @@ router.post('/login', async function(request, response) {
     const isValidPassword = password === receivedUser.password;
 
     if(isValidPassword) {
-        response.cookie('username', receivedUser.username)
+        response.cookie('username', receivedUser.username);
 
         response.status(200);
         return response.send({loggedIn: true})

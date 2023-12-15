@@ -35,7 +35,7 @@ export default function Login() {
 
     async function submitLogin() {
         try {
-            const response = await axios.post('http://localhost:3500/api/user/login', loginFormState)
+            const response = await axios.post('/api/user/login', loginFormState)
 
             navigate(`/${loginFormState.username}`)  
         } catch (err) {

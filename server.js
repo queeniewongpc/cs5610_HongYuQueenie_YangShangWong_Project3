@@ -1,12 +1,11 @@
 const express = require('express');
 const blogpostApi = require('./server/blogpost.server');
+const userApi = require('./server/user.server');
 const cors = require('cors')
 const mongoose = require('mongoose');
 const path = require('path')
 const cookieParser = require('cookie-parser')
 
-/* User Server Stuff */
-const userApi = require('./server/user.server');
 
 const app = express();
 
@@ -24,15 +23,13 @@ mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
 
+let frontend_dir = path.join(__dirname, '..', 'frontend', 'dist')
 
-
-// let frontend_dir = path.join(__dirname, '..', 'frontend', 'dist')
-
-// app.use(express.static(frontend_dir));
-// app.get('*', function (req, res) {
-//     console.log("received request");
-//     res.sendFile(path.join(frontend_dir, "index.html"));
-// });
+app.use(express.static(frontend_dir));
+app.get('*', function (req, res) {
+    console.log("received request");
+    res.sendFile(path.join(frontend_dir, "index.html"));
+});
 
 app.listen(process.env.PORT || 3500, function() {
     console.log("Starting server now...")

@@ -49,20 +49,26 @@ router.get('/', function(req, res) {
 //api/post/all
 router.get('/all', async function(req, res) {
 
-    const ownerQuery = res.cookies.username;
+    const username = req.cookies.username;
     let postResponse = [];
+
+    console.log(req.cookies);
+    console.log("a");
+    console.log(req.signedCookies);
 
 //    const allPokemon = await PokemonAccessor.getAllPokemon();
 //    return  response.json(allPokemon);
  
-    if(ownerQuery) {
-        const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(ownerQuery);
-        return response.json(foundBlogPosts);
-    } else
+    if(username) {
+        const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(username);
+        return res.json(foundBlogPosts);
+    }
+    else
     {
         res.status(400);
-        return response.send("Cannot get blog posts when logged out");
+        return res.send("Cannot get blog posts when logged out");
     }
+    res.status(200);
 })
 
 /*
@@ -88,11 +94,11 @@ router.get('/:postId', function (req, res) {
 //name , ... (use cookie username later....)
 //image , ....
 router.post('/', async function(req, res) {
-    const username = res.cookies.username;
+    const username = req.cookies.username;
     
     if(!username) {
-         response.status(400)
-         return response.send("Users need to be logged in to create a new post!")
+         res.status(400)
+         return res.send("Users need to be logged in to create a new post!")
     }
 
     const body = req.body;
