@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const { v4: uuid } = require('uuid');
 const blogPostAccessor = require('./database/blogpost.model');
 
 // const postDB = [
@@ -52,15 +52,12 @@ router.get('/all', async function(req, res) {
     const username = req.cookies.username;
     let postResponse = [];
 
-    console.log(req.cookies);
-    console.log("a");
-    console.log(req.signedCookies);
-
 //    const allPokemon = await PokemonAccessor.getAllPokemon();
 //    return  response.json(allPokemon);
  
     if(username) {
         const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(username);
+        res.status(200);
         return res.json(foundBlogPosts);
     }
     else
@@ -68,7 +65,7 @@ router.get('/all', async function(req, res) {
         res.status(400);
         return res.send("Cannot get blog posts when logged out");
     }
-    res.status(200);
+
 })
 
 /*
@@ -104,6 +101,7 @@ router.post('/', async function(req, res) {
     const body = req.body;
     const text = body.text;
     const owner = username;
+    const id = uuid();
 
     if(!text) {
         res.status(400);
@@ -111,6 +109,7 @@ router.post('/', async function(req, res) {
     }
 
     const newPost = ({
+        id: id,
         owner: owner,
         text: text,
         timestamp: generateTimestamp()
@@ -124,62 +123,68 @@ router.post('/', async function(req, res) {
     //return res.status(200).json({message: "Post added successfully!", post: newPost, });
 });
 
-/*
-//http://localhost:3500/api/1
-//Headers:Content-Type application/json
-//text , ...
-//name , ... (use cookie username later....)
-//image , ....
-router.put('/:postId', function(req, res) {
 
-    //adding cookies using username later for owner.
-    const postIdToUpdate = Number(req.params.postId);
-    const owner = req.body.owner;
-    const text = req.body.text;
-    const image = req.body.image; 
+// // http://localhost:3500/api/1
+// // Headers:Content-Type application/json
+// // text , ...
+// // name , ... (use cookie username later....)
+// // image , ....
+// router.put('/:postId', function(req, res) {
+
+//     const username = req.cookies.username;
     
-    let postToUpdate = null
-    for(let i = 0; i < postDB.length; i++) {
-        const postValue = postDB[i];
-        if(postValue.id === postIdToUpdate) {
-            postToUpdate = postValue
-        } 
-    }
+//     if(!username) {
+//          res.status(400)
+//          return res.send("Users need to be logged in to update their post!")
+//     }
 
-    if (postToUpdate) {
-        //no need when add cookie
-        postToUpdate.owner = owner;
-        postToUpdate.text = text;
+//     //adding cookies using username later for owner.
+//     const postIdToUpdate = Number(req.params.postId);
+//     const owner = username
+//     const text = req.body.text;
+    
+//     let postToUpdate = null
+//     for(let i = 0; i < postDB.length; i++) {
+//         const postValue = postDB[i];
+//         if(postValue.id === postIdToUpdate) {
+//             postToUpdate = postValue
+//         } 
+//     }
 
-        if (image) {
-            postToUpdate.image = image;
-        }
+//     if (postToUpdate) {
+//         //no need when add cookie
+//         postToUpdate.owner = owner;
+//         postToUpdate.text = text;
 
-        postToUpdate.timestamp = generateTimestamp();
-        res.status(200);
-        return res.send("Successfully update post with post id " + postIdToUpdate)
-    } else {
-        res.status(404);
-        return res.send("Could not find post id " + postIdToUpdate)
-    }
+//         if (image) {
+//             postToUpdate.image = image;
+//         }
+
+//         postToUpdate.timestamp = generateTimestamp();
+//         res.status(200);
+//         return res.send("Successfully update post with post id " + postIdToUpdate)
+//     } else {
+//         res.status(404);
+//         return res.send("Could not find post id " + postIdToUpdate)
+//     }
     
 
-});
+// });
 
-router.delete('/:postId', function(req, res) {
-    const idQuery = Number(req.params.postId);
+// router.delete('/:postId', function(req, res) {
+//     const idQuery = Number(req.params.postId);
     
-    for (let i = 0; i < postDB.length; i++) {
-        const postValue = postDB[i];
-        if (postValue.id === idQuery) {
-            postDB.splice(i, 1); 
-            return res.status(200).json({ message: "Post " + idQuery + " deleted successfully!" });
-        }
-    }
+//     for (let i = 0; i < postDB.length; i++) {
+//         const postValue = postDB[i];
+//         if (postValue.id === idQuery) {
+//             postDB.splice(i, 1); 
+//             return res.status(200).json({ message: "Post " + idQuery + " deleted successfully!" });
+//         }
+//     }
 
-    return res.status(200).json({ error: "No post matches that post id!" });
-})
-*/
+//     return res.status(200).json({ error: "No post matches that post id!" });
+// })
+
 
 module.exports = router;
 

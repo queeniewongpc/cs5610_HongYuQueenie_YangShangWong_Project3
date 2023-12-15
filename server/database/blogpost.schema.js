@@ -9,4 +9,5 @@ exports.BlogPostSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    id: String,
 }, { collection : 'postTable' });
