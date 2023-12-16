@@ -15,9 +15,8 @@
 }
 
 .blog-posts {
-  margin-top: 100px;
   position: relative;
-  padding-top: 350px;
+  padding-top: 100px;
   z-index: 1; 
   padding-bottom: 20px;
 }
