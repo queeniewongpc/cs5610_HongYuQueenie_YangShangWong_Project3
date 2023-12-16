@@ -27,14 +27,14 @@ function UserPage() {
   
 
   const getAllUserPost = async () => {
-    const response = await axios.get(`/api/blogpost/all?owner=${owner}`);
+    const response = await axios.get(`/api/blogpost`);
     setPostListState(response.data);
   };
 
   useEffect(() => {
     async function getUserInformation() {
       try {
-        const userResponse = await axios.get(`/api/user/joinTimestamp/${userName}`);
+        const userResponse = await axios.get(`/api/user/joinTimestamp/${owner}`);
         const createdTime = userResponse.data.joinTimestamp;
         const parsedDate = new Date(createdTime);
         const formattedDate = parsedDate.toLocaleString(); 
@@ -71,7 +71,7 @@ function UserPage() {
     }
   };
 
-  const postComponent = [...postListState].reverse().map((post) => {
+  const postComponent = [...postListState].filter(post => post.owner.toLowerCase() === owner.toLowerCase()).reverse().map((post) => {
     const postTimestamp = new Date(post.timestamp);
   
     const formattedTimestamp = `${postTimestamp.getFullYear()}/${(postTimestamp.getMonth() + 1).toString().padStart(2, '0')}/${postTimestamp.getDate().toString().padStart(2, '0')} ${postTimestamp.getHours().toString().padStart(2, '0')}:${postTimestamp.getMinutes().toString().padStart(2, '0')}:${postTimestamp.getSeconds().toString().padStart(2, '0')}`;
@@ -83,10 +83,12 @@ function UserPage() {
           <div className="post.text">{post.text}</div>
           <div className="post.timestamp">{formattedTimestamp}</div>
         </div>
-        <div className="updateDeleteButtonSpacing">
-          <button className="updateButton" onClick={() => handleUpdate(post._id)}>Update</button>
-          <button className="deleteButton" onClick={() => handleDelete(post._id)}>Delete</button>
+        {userName === owner && (
+        <div className="postButtons">
+          <button onClick={() => handleUpdate(post._id)}>Update</button>
+          <button onClick={() => handleDelete(post._id)}>Delete</button>
         </div>
+      )}
       </div>
     );
   });
@@ -116,21 +118,42 @@ function UserPage() {
 
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} userName={userName}/>
-      
-      <div className="userPageContainer">
-        <h1>{usernameMessage}</h1>
-        <div className="container">
-          <h3>Make a new post</h3>
-          <div>Content: </div>
-          <input className="inputField" onInput={updatePostContent} value={newPostContent} />
-          <button className="submitButton" onClick={makeNewPost}>
-            Submit
-          </button>
+      {userName.toLowerCase() === owner.toLowerCase() && (
+        <>
+          <Navbar isLoggedIn={isLoggedIn} userName={userName}/>
+          
+          <div className="userPageContainer">
+            <h1>{usernameMessage}</h1>
+            <div className="container">
+              <h3>Make a new post</h3>
+              <div>Content: </div>
+              <input 
+                className="inputField" 
+                onInput={updatePostContent} 
+                value={newPostContent} 
+              />
+              <button 
+                className="submitButton" 
+                onClick={makeNewPost}
+              >
+                Submit
+              </button>
+            </div>
+            <p>Joined on: {joinTimestamp}</p>
+            <div className="postContainer">{postComponent}</div>
+          </div>
+        </>
+      )}
+      {userName.toLowerCase() !== owner.toLowerCase() && (
+      <>
+        {userName ? <Navbar isLoggedIn={isLoggedIn} userName={userName}/> : <Navbar />}
+        
+        <div className="userPageContainer">
+          <h1>{owner}'s Profile</h1>
+          <div className="postContainer">{postComponent}</div>
         </div>
-        <p>Joined on: {joinTimestamp}</p>
-        <div className="postContainer">{postComponent}</div>
-      </div>
+      </>
+    )}
     </div>
   );
 }
