@@ -3,6 +3,11 @@
   flex-direction: column;
   height: 100vh;
 }
+.container
+{
+  width: 100%;
+  max-width: 800px;
+}
 
 .blog-form-container {
   position: fixed;
@@ -15,9 +20,15 @@
 }
 
 .blog-posts {
-  margin-top: 100px;
   position: relative;
-  padding-top: 350px;
+  padding-top: 100px;
   z-index: 1; 
   padding-bottom: 20px;
+}
+
+.post-owner,
+.post-text,
+.post-timestamp {
+  display: block;
+  margin-bottom: 5px;
 }

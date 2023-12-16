@@ -14,8 +14,14 @@ function getUserByUsername(username)
     return UserModel.findOne({username: username}).exec();
 }
 
+function getCreationTimeByUsername(username) 
+{
+    return UserModel.findOne({ username: username }).select('createdTime').exec();
+  }
+
 module.exports = 
 {
     insertUser,
     getUserByUsername,
+    getCreationTimeByUsername
 };

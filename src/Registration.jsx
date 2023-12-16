@@ -42,7 +42,7 @@ function UserAccount()
   async function handleRegistration() 
   {
     try {
-      const response = await axios.post('http://localhost:3500/api/user/registration', loginFormState);
+      const response = await axios.post('/api/user/registration', loginFormState);
       //if (response.data.success) 
       //{
         //console.log("Register success")

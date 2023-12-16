@@ -35,11 +35,11 @@ export default function Login() {
 
     async function submitLogin() {
         try {
-            const response = await axios.post('http://localhost:3500/api/user/login', loginFormState)
+            const response = await axios.post('/api/user/login', loginFormState)
 
             navigate(`/${loginFormState.username}`)  
         } catch (err) {
-            setErrorDetailsState("Issue logging in, please try again :)")
+            setErrorDetailsState("Please enter a valid username and password!")
         }
 
 
@@ -51,18 +51,18 @@ export default function Login() {
     }
 
     return (
+        <div className="container">
+        <Navbar />
+        <div className="inputField">Username:</div>
+        <input type='text' onInput={updateUserNameInState} className="inputField" />
+        <div className="inputField">Password:</div>
+        <input type='password' onInput={updatePasswordInState} className="inputField" />
         <div>
-            <Navbar />
-            <div>Username:</div>
-            <input type='text' onInput={updateUserNameInState} />
-            <div>Password:</div>
-            <input type='password' onInput={updatePasswordInState} />
-            <div>
-                <button onClick={submitLogin}>Login</button>
-            </div>
-            <div>
-                {errorMessage}
-            </div>
-        </div> 
+            <button onClick={submitLogin} className="submitButton">Login</button>
+        </div>
+        <div>
+            {errorMessage}
+        </div>
+    </div> 
     );
 }

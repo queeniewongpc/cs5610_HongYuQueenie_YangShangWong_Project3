@@ -1,18 +1,19 @@
 /* UserPage.css */
-.userPageContainer {
+.userPageContainer 
+{
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    height: 50vh
+    height: 50vh;
+    margin: 0;
   }
   
   .postContainer {
     width: 100%;
-    max-width: 600px;
-    border: 1px solid lightskyblue;
+    max-width: 800px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px lightskyblue;
     padding: 10px;
     margin-bottom: 20px;
     display: flex;
@@ -31,6 +32,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
+    margin-top: 100px;
+    margin-bottom: 20px;
   }
   
   .inputField 
@@ -63,3 +66,50 @@
     padding: 10px;
     margin-bottom: 10px;
   }
+
+
+  .postBox {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .postContent {
+    flex-grow: 1;
+  }
+  
+  .updateButton
+  {
+    background-color: #24292e;
+  }
+  
+  .updateButton:hover
+  {
+    background-color: #136d22;
+  }
+
+  .deleteButton 
+  {
+    background-color: #D41B2C;
+  }
+  
+  .deleteButton:hover 
+  {
+    background-color: #92121f;
+  }
+
+  .updateDeleteButtonSpacing 
+  {
+    display: flex;
+    gap: 5px;
+  }
+
+  .post-owner,
+  .post-text,
+  .post-timestamp {
+    display: block;
+    margin-bottom: 5px;
+  }
+

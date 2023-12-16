@@ -14,8 +14,23 @@ function getAllBlogPosts()
     return BlogPostModel.find().exec();
 }
 
+function findBlogPostsByOwner(owner) {
+    return BlogPostModel.find({owner: owner}).exec();
+}
+
+function updateBlogPost(postId, updatedText) {
+    return BlogPostModel.findByIdAndUpdate(postId, { text: updatedText }, { new: true }).exec();
+}
+
+function deleteBlogPost(postId) {
+    return BlogPostModel.findByIdAndDelete(postId).exec();
+}
+
 module.exports = 
 {
     insertBlogPost,
     getAllBlogPosts,
+    findBlogPostsByOwner,
+    updateBlogPost,
+    deleteBlogPost,
 };
