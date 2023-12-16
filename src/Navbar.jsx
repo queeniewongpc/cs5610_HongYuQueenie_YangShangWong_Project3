@@ -4,7 +4,7 @@ import './Navbar.css'
 import NUlogo from './images/NUlogo.png';
 import axios from 'axios';
 
-const Navbar = ({ isLoggedIn }) => 
+const Navbar = ({ isLoggedIn, userName }) => 
 {
   async function logOut() {
     await axios.post('/api/user/logout', {})
@@ -24,6 +24,11 @@ const Navbar = ({ isLoggedIn }) =>
           </li>
           {isLoggedIn ? (
             <>
+              <li className="nav-item">
+              <Link to={`/${userName}`} className="nav-links">
+                {userName}
+              </Link>
+              </li>
               <li className="nav-item">
                 <Link to="/login" className="nav-links"  onClick={logOut}>
                   Logout

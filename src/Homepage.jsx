@@ -65,7 +65,7 @@ function Homepage() {
   return (
     <div>
       <div className="home-container">
-        {userName ? <Navbar isLoggedIn={isLoggedIn} /> : <Navbar />}
+        {userName ? <Navbar isLoggedIn={isLoggedIn} userName={userName}/> : <Navbar />}
   
         {userName && (
           <div className="container">

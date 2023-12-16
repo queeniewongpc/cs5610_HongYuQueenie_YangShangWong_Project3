@@ -93,7 +93,7 @@ function UserPage() {
 
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} userName={userName}/>
       
       <div className="userPageContainer">
         <h1>{usernameMessage}</h1>
