@@ -33,15 +33,27 @@ function UserPage() {
     getUsername();
   }, []);
 
-  const handleUpdate = (postId) => {
-    // Implement the update logic here
-    console.log('Update post with ID:', postId);
+  const handleUpdate = async (postId) => {
+    try {
+      const updatedText = prompt('Enter the updated text:');
+      if (updatedText !== null) {
+        await axios.put(`/api/blogpost/${postId}`, { text: updatedText });
+        await getAllUserPost();
+      }
+    } catch (error) {
+      console.error('Error updating post:', error);
+    }
   };
 
   const handleDelete = async (postId) => {
-    // Implement the delete logic here
-    await axios.delete(`/api/blogpost/${postId}`);
-    await getAllUserPost();
+    try {
+      if (window.confirm('Are you sure you want to delete this post?')) {
+        await axios.delete(`/api/blogpost/${postId}`);
+        await getAllUserPost();
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
   };
 
   const postComponent = [...postListState].reverse().map((post) => (

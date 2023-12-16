@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Homepage.css'; // Import the same CSS file used in UserPage
+import './Homepage.css';
 import Navbar from './Navbar';
 
 function Homepage() {

@@ -30,9 +30,6 @@ router.get('/all', async function(req, res) {
 
     const username = req.cookies.username;
     let postResponse = [];
-
-//    const allPokemon = await PokemonAccessor.getAllPokemon();
-//    return  response.json(allPokemon);
  
     if(username) {
         const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(username);
@@ -47,13 +44,6 @@ router.get('/all', async function(req, res) {
 
 })
 
-
-
-//http://localhost:3500/api/post/
-//Headers:Content-Type application/json
-//text , ...
-//name , ... (use cookie username later....)
-//image , ....
 router.post('/', async function(req, res) {
     const username = req.cookies.username;
     
@@ -88,66 +78,31 @@ router.post('/', async function(req, res) {
 });
 
 
-// // http://localhost:3500/api/1
-// // Headers:Content-Type application/json
-// // text , ...
-// // name , ... (use cookie username later....)
-// // image , ....
-// router.put('/:postId', function(req, res) {
+router.put('/:postId', async function(req, res) {
+    const postIdToUpdate = req.params.postId;
+    const updatedText = req.body.text;
 
-//     const username = req.cookies.username;
-    
-//     if(!username) {
-//          res.status(400)
-//          return res.send("Users need to be logged in to update their post!")
-//     }
+    try {
+        await blogPostAccessor.updateBlogPost(postIdToUpdate, updatedText);
+        res.status(200).send(`Post with ID ${postIdToUpdate} updated successfully.`);
+    } catch (error) {
+        console.error('Error updating post:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
-//     //adding cookies using username later for owner.
-//     const postIdToUpdate = Number(req.params.postId);
-//     const owner = username
-//     const text = req.body.text;
-    
-//     let postToUpdate = null
-//     for(let i = 0; i < postDB.length; i++) {
-//         const postValue = postDB[i];
-//         if(postValue.id === postIdToUpdate) {
-//             postToUpdate = postValue
-//         } 
-//     }
 
-//     if (postToUpdate) {
-//         //no need when add cookie
-//         postToUpdate.owner = owner;
-//         postToUpdate.text = text;
+router.delete('/:postId', async function (req, res) {
+    const postIdToDelete = req.params.postId;
 
-//         if (image) {
-//             postToUpdate.image = image;
-//         }
-
-//         postToUpdate.timestamp = generateTimestamp();
-//         res.status(200);
-//         return res.send("Successfully update post with post id " + postIdToUpdate)
-//     } else {
-//         res.status(404);
-//         return res.send("Could not find post id " + postIdToUpdate)
-//     }
-    
-
-// });
-
-// router.delete('/:postId', function(req, res) {
-//     const idQuery = Number(req.params.postId);
-    
-//     for (let i = 0; i < postDB.length; i++) {
-//         const postValue = postDB[i];
-//         if (postValue.id === idQuery) {
-//             postDB.splice(i, 1); 
-//             return res.status(200).json({ message: "Post " + idQuery + " deleted successfully!" });
-//         }
-//     }
-
-//     return res.status(200).json({ error: "No post matches that post id!" });
-// })
+    try {
+        await blogPostAccessor.deleteBlogPost(postIdToDelete);
+        res.status(200).send(`Post with ID ${postIdToDelete} deleted successfully.`);
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 module.exports = router;
