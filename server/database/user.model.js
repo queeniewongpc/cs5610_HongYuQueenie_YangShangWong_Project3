@@ -14,8 +14,18 @@ function getUserByUsername(username)
     return UserModel.findOne({username: username}).exec();
 }
 
+function getCreationTimeByOwner(owner) 
+{
+    return UserModel.findOne({ owner: owner }, 'createdTime').exec()
+    .then(user => {
+        if (user) {
+            return user.createdTime; 
+        }
+    })
+}
 module.exports = 
 {
     insertUser,
     getUserByUsername,
+    getCreationTimeByOwner
 };

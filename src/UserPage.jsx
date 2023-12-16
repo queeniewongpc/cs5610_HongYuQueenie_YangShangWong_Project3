@@ -11,6 +11,7 @@ function UserPage() {
   //const [userInfo, setUserInfo] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName, setUsername] = useState('')
+  const [joinTimestamp, setJoinTimestamp] = useState('');
 
   const params = useParams();
   const owner = params.owner;
@@ -22,6 +23,13 @@ function UserPage() {
       setUsername(response.data.username)
     }
   }
+  // async function getCreatedTime() {
+  //   const response = await axios.get('api/user/accountCreationTime/:username')
+
+  //   if(response.data.createdTime) {
+  //     getCreatedTime(response.data.createdTime)
+  //   }
+  // }
 
   const getAllUserPost = async () => {
     //const response = await axios.get('/api/blogpost/all');
@@ -79,6 +87,7 @@ function UserPage() {
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="userPageContainer">
         <h1> {usernameMessage} </h1>
+        <p>Joined on: </p>
         <div className="postContainer">{postComponent}</div>
         <div className="container">
           <h3>Make a new post</h3>

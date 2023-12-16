@@ -2,9 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
 import NUlogo from './images/NUlogo.png';
+import axios from 'axios';
 
 const Navbar = ({ isLoggedIn }) => 
 {
+  async function logOut() {
+    await axios.post('/api/user/logout', {})
+  }
+  
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -20,7 +25,7 @@ const Navbar = ({ isLoggedIn }) =>
           {isLoggedIn ? (
             <>
               <li className="nav-item">
-                <Link to="/login" className="nav-links">
+                <Link to="/login" className="nav-links"  onClick={logOut}>
                   Logout
                 </Link>
               </li>
