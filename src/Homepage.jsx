@@ -1,48 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import './Homepage.css';
+import axios from 'axios';
+import './Homepage.css'; // Import the same CSS file used in UserPage
 import Navbar from './Navbar';
-import BlogPost from './BlogPost';
-import BlogForm from './BlogForm';
 
-const Home = () => {
-  const [blogPosts, setBlogPosts] = useState([]);
+function Homepage() {
+  // show the post
+  const [postListState, setPostListState] = useState([]);
 
-  // Load posts from local storage when the component mounts
-  useEffect(() => {
-    try {
-      const savedPosts = localStorage.getItem('blogPosts');
-      if (savedPosts) {
-        setBlogPosts(JSON.parse(savedPosts));
-      }
-    } catch (error) {
-      console.error('Failed to load posts from localStorage:', error);
-    }
-  }, []);
-
-  // Save posts to local storage when blogPosts changes
-  useEffect(() => {
-    try {
-      localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-    } catch (error) {
-      console.error('Failed to save posts to localStorage:', error);
-    }
-  }, [blogPosts]);
-
-  const addBlogPost = (newPost) => {
-    setBlogPosts([newPost, ...blogPosts]);
+  const getAllPost = async () => {
+    const response = await axios.get('/api/blogpost/');
+    setPostListState(response.data);
   };
 
+  useEffect(() => {
+    getAllPost();
+  }, []);
+
+  const postComponent = [...postListState].reverse().map((post) => (
+    <div key={post._id} className="postContainer">
+      <div className="postContent">
+        <p>{post.owner} - {post.text} - {post.timestamp}</p>
+      </div>
+    </div>
+  ));
+
   return (
-    <div className="home-container">
-      <Navbar />
-      <BlogForm addBlogPost={addBlogPost} />
-      <div className="blog-posts">
-        {blogPosts.map((post, index) => (
-          <BlogPost key={index} post={post} />
-        ))}
+    <div>
+      <div className="home-container">
+        <Navbar />
+        <div className="blog-posts">{postComponent}</div>
       </div>
     </div>
   );
-};
+}
 
-export default Home;
+export default Homepage;

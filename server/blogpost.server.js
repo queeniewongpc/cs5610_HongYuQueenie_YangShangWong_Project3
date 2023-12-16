@@ -3,27 +3,6 @@ const router = express.Router();
 const { v4: uuid } = require('uuid');
 const blogPostAccessor = require('./database/blogpost.model');
 
-// const postDB = [
-//     {
-//         id: 1,
-//         owner: 'Boris',
-//         text: 'ONE!',
-//         timestamp: generateTimestamp(),
-//     },
-//     {
-//         id: 2,
-//         owner: 'Hong',
-//         text: 'TWO!',
-//         timestamp: generateTimestamp(),
-//     },
-//     {
-//         id: 3,
-//         owner: 'Queenie',
-//         text: 'THREE!',
-//         timestamp: generateTimestamp(),
-//     },
-// ]
-
 //generate time stamp
 function generateTimestamp() {
     const now = new Date();
@@ -37,13 +16,13 @@ function generateTimestamp() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-/*
-// return all post
-router.get('/', function(req, res) {
 
-    res.json(postDB);
+// return all post
+router.get('/', async function(req, res) {
+    const foundBlogPosts = await blogPostAccessor.getAllBlogPosts();
+    res.json(foundBlogPosts)
 });
-*/
+
 
 //api/post/all?owner=Boris
 //api/post/all
@@ -68,22 +47,7 @@ router.get('/all', async function(req, res) {
 
 })
 
-/*
-////api/post/1
-router.get('/:postId', function (req, res) {
-    // return pokemon if one is found matching the pokemonId
-    // return a 404 if no pokemon matches that pokemonId
-    const idQuery = Number(req.params.postId);
 
-    for (let i = 0; i < postDB.length; i++) {
-        const postValue = postDB[i];
-        if (postValue.id === idQuery) {
-            return res.json(postValue);
-        }
-    }
-    res.status(404).json({ error: "No post matches that post id!"});
-});
-*/
 
 //http://localhost:3500/api/post/
 //Headers:Content-Type application/json
