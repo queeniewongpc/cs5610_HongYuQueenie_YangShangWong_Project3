@@ -1,0 +1,19 @@
+.container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .inputField {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .errorMessage {
+    color: red;
+  }
+  
+  .submitButton {
+    padding: 8px 16px;
+    margin-top: 10px;
+  }
+  

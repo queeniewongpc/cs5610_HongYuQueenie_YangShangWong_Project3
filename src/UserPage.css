@@ -11,10 +11,9 @@
   
   .postContainer {
     width: 100%;
-    max-width: 600px;
-    border: 1px solid lightskyblue;
+    max-width: 800px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px lightskyblue;
     padding: 10px;
     margin-bottom: 20px;
     display: flex;
@@ -81,7 +80,28 @@
     flex-grow: 1;
   }
   
-  .postButtons {
+  .updateButton
+  {
+    background-color: #24292e;
+  }
+  
+  .updateButton:hover
+  {
+    background-color: #136d22;
+  }
+
+  .deleteButton 
+  {
+    background-color: #D41B2C;
+  }
+  
+  .deleteButton:hover 
+  {
+    background-color: #92121f;
+  }
+
+  .updateDeleteButtonSpacing 
+  {
     display: flex;
     gap: 5px;
   }
