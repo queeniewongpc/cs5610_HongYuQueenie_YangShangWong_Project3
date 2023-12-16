@@ -59,7 +59,9 @@ function UserPage() {
   const postComponent = [...postListState].reverse().map((post) => (
     <div key={post._id} className="postContainer">
       <div className="postContent">
-        <p>{post.owner} - {post.text} - {post.timestamp}</p>
+        <div className="post-owner">{post.owner}</div>
+        <div className="post.text">{post.text}</div>
+        <div className="post.timestamp">{post.timestamp}</div>
       </div>
       <div className="postButtons">
         <button onClick={() => handleUpdate(post._id)}>Update</button>

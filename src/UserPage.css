@@ -84,3 +84,11 @@
     display: flex;
     gap: 5px;
   }
+
+  .post-owner,
+  .post-text,
+  .post-timestamp {
+    display: block;
+    margin-bottom: 5px;
+  }
+
