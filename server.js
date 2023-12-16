@@ -23,7 +23,7 @@ mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
 
-let frontend_dir = path.join(__dirname, '..', 'frontend', 'dist')
+let frontend_dir = path.join(__dirname, 'dist')
 
 app.use(express.static(frontend_dir));
 app.get('*', function (req, res) {
