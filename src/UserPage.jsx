@@ -20,18 +20,39 @@ function UserPage() {
 
     if (response.data.username) {
       setUsername(response.data.username);
+
     }
   }
 
+  
+
   const getAllUserPost = async () => {
-    const response = await axios.get('/api/blogpost/all');
+    const response = await axios.get(`/api/blogpost/all?owner=${owner}`);
     setPostListState(response.data);
   };
 
   useEffect(() => {
+    async function getUserInformation() {
+      try {
+        const userResponse = await axios.get(`/api/user/joinTimestamp/${userName}`);
+        const createdTime = userResponse.data.joinTimestamp;
+        const parsedDate = new Date(createdTime);
+        console.log('Parsed Date:', parsedDate);
+        const formattedDate = parsedDate.toLocaleString(); 
+        setJoinTimestamp(formattedDate);
+      } catch (error) {
+        console.error('Error retrieving user information:', error);
+      }
+    }
     getAllUserPost();
     getUsername();
-  }, []);
+    getUserInformation();
+  }, [owner, userName]);
+
+
+  useEffect(() => {
+    console.log('joinTimestamp:', joinTimestamp);
+  }, [joinTimestamp]);
 
   const handleUpdate = async (postId) => {
     try {
@@ -90,6 +111,8 @@ function UserPage() {
   if (userName) {
     usernameMessage = <div>Logged in as {userName}</div>;
   }
+
+  console.log('joinTimestamp: ', joinTimestamp)
 
   return (
     <div>

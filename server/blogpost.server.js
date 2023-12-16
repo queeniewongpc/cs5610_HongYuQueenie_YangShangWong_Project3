@@ -29,7 +29,6 @@ router.get('/', async function(req, res) {
 router.get('/all', async function(req, res) {
 
     const username = req.cookies.username;
-    let postResponse = [];
  
     if(username) {
         const foundBlogPosts = await blogPostAccessor.findBlogPostsByOwner(username);
