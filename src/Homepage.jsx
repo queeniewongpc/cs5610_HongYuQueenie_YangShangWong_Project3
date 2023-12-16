@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './Homepage.css';
 import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
 
 function Homepage() {
   const [postListState, setPostListState] = useState([]);
@@ -38,9 +39,11 @@ function Homepage() {
     return (
       <div key={post._id} className="postContainer">
         <div className="postContent">
-          <div className="post-owner">{post.owner}</div>
-          <div className="post.text">{post.text}</div>
-          <div className="post.timestamp">{formattedTimestamp}</div>
+          <div className="post-owner">
+            <Link to={`/${post.owner}`}>{post.owner}</Link>
+          </div>
+          <div className="post-text">{post.text}</div>
+          <div className="post-timestamp">{formattedTimestamp}</div>
         </div>
       </div>
     );
