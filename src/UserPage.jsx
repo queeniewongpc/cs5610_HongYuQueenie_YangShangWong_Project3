@@ -37,7 +37,6 @@ function UserPage() {
         const userResponse = await axios.get(`/api/user/joinTimestamp/${userName}`);
         const createdTime = userResponse.data.joinTimestamp;
         const parsedDate = new Date(createdTime);
-        console.log('Parsed Date:', parsedDate);
         const formattedDate = parsedDate.toLocaleString(); 
         setJoinTimestamp(formattedDate);
       } catch (error) {
@@ -48,11 +47,6 @@ function UserPage() {
     getUsername();
     getUserInformation();
   }, [owner, userName]);
-
-
-  useEffect(() => {
-    console.log('joinTimestamp:', joinTimestamp);
-  }, [joinTimestamp]);
 
   const handleUpdate = async (postId) => {
     try {
@@ -77,19 +71,25 @@ function UserPage() {
     }
   };
 
-  const postComponent = [...postListState].reverse().map((post) => (
-    <div key={post._id} className="postContainer">
-      <div className="postContent">
-        <div className="post-owner">{post.owner}</div>
-        <div className="post.text">{post.text}</div>
-        <div className="post.timestamp">{post.timestamp}</div>
+  const postComponent = [...postListState].reverse().map((post) => {
+    const postTimestamp = new Date(post.timestamp);
+  
+    const formattedTimestamp = `${postTimestamp.getFullYear()}/${(postTimestamp.getMonth() + 1).toString().padStart(2, '0')}/${postTimestamp.getDate().toString().padStart(2, '0')} ${postTimestamp.getHours().toString().padStart(2, '0')}:${postTimestamp.getMinutes().toString().padStart(2, '0')}:${postTimestamp.getSeconds().toString().padStart(2, '0')}`;
+  
+    return (
+      <div key={post._id} className="postContainer">
+        <div className="postContent">
+          <div className="post-owner">{post.owner}</div>
+          <div className="post.text">{post.text}</div>
+          <div className="post.timestamp">{formattedTimestamp}</div>
+        </div>
+        <div className="updateDeleteButtonSpacing">
+          <button className="updateButton" onClick={() => handleUpdate(post._id)}>Update</button>
+          <button className="deleteButton" onClick={() => handleDelete(post._id)}>Delete</button>
+        </div>
       </div>
-      <div className="updateDeleteButtonSpacing">
-        <button className="updateButton"onClick={() => handleUpdate(post._id)}>Update</button>
-        <button className="deleteButton" onClick={() => handleDelete(post._id)}>Delete</button>
-      </div>
-    </div>
-  ));
+    );
+  });
   function updatePostContent(event) {
     setNewPostContent(event.target.value);
   }

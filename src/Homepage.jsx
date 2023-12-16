@@ -9,7 +9,7 @@ function Homepage() {
   const [newPostContent, setNewPostContent] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName, setUsername] = useState('');
-  const [joinTimestamp, setJoinTimestamp] = useState('');
+
 
   async function getUsername() {
     const response = await axios.get('/api/user/isLoggedIn');
@@ -30,15 +30,21 @@ function Homepage() {
   }, []);
 
 
-  const postComponent = [...postListState].reverse().map((post) => (
-    <div key={post._id} className="postContainer">
-      <div className="postContent">
-        <div className="post-owner">{post.owner}</div>
-        <div className="post-text">{post.text}</div>
-        <div className="post-timestamp">{post.timestamp}</div>
+  const postComponent = [...postListState].reverse().map((post) => {
+    const postTimestamp = new Date(post.timestamp);
+  
+    const formattedTimestamp = `${postTimestamp.getFullYear()}/${(postTimestamp.getMonth() + 1).toString().padStart(2, '0')}/${postTimestamp.getDate().toString().padStart(2, '0')} ${postTimestamp.getHours().toString().padStart(2, '0')}:${postTimestamp.getMinutes().toString().padStart(2, '0')}:${postTimestamp.getSeconds().toString().padStart(2, '0')}`;
+  
+    return (
+      <div key={post._id} className="postContainer">
+        <div className="postContent">
+          <div className="post-owner">{post.owner}</div>
+          <div className="post.text">{post.text}</div>
+          <div className="post.timestamp">{formattedTimestamp}</div>
+        </div>
       </div>
-    </div>
-  ));
+    );
+  });
 
   function updatePostContent(event) {
     setNewPostContent(event.target.value);
